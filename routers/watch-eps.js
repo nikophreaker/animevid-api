@@ -11,7 +11,7 @@ router.get("/test", async (req, res) => {
 
 router.get("/:slug", async (req, res) => {
     let slug = req.params.slug;
-    let url = baseurl + `/${slug}/`;
+    let url = baseurl + `${slug}/`;
 
     try {
         await axios.get(url, {
@@ -44,15 +44,15 @@ router.get("/:slug", async (req, res) => {
                     serverData,
                 });
             } else {
-                res2.send({
+                return res.send({
                     status: 0,
-                    message: res.message
+                    message: res2.message
                 });
             }
         });
 
     } catch (error) {
-        res.send({
+        return res.send({
             status: 0,
             message: error
         })

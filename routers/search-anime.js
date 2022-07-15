@@ -51,15 +51,15 @@ router.get("/:slug", async (req, res) => {
                     searchData,
                 });
             } else {
-                res2.send({
+                return res.send({
                     status: 0,
-                    message: res.message
+                    message: res2.message
                 });
             }
         });
 
     } catch (error) {
-        res.send({
+        return res.send({
             status: 0,
             message: error.message
         })

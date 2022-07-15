@@ -28,7 +28,7 @@ router.get("/:slug", async (req, res) => {
                 let coverTemp = element.find("#content-wrap > .ngirix > .menu > .detail > img").attr("src");
                 cover = coverTemp.charAt(0) == "/" ? baseurl + coverTemp.substring(1, coverTemp.length) : coverTemp;
                 title = element.find("#content-wrap > .ngirix > .menu > .detail > h2").text().trim();
-
+                detail = element.find("#content-wrap > .ngirix > .menu > .detail > p").text().trim();
                 element.find("#content-wrap > .ngirix > .menu > .detail > li").each((id, el) => {
                     let genre = $(el).find("a").text().trim();
                     let genreEndpoint = $(el).find("a").attr("href");
@@ -52,19 +52,20 @@ router.get("/:slug", async (req, res) => {
                     message: "Success Get Data",
                     cover,
                     title,
+                    detail,
                     genreData,
                     epsData,
                 });
             } else {
-                res2.send({
+                return res.send({
                     status: 0,
-                    message: res.message
+                    message: res2.message
                 });
             }
         });
 
     } catch (error) {
-        res.send({
+        return res.send({
             status: 0,
             message: error.message
         })
