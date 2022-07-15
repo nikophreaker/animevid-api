@@ -1,32 +1,26 @@
 const router = require("express").Router();
+// const router = require("fastify")();
 const cheerio = require("cheerio");
 const axios = require("axios");
-const baseurl = "https://185.224.82.193/";
-const { fetch } = require("../scrappers/index.js");
+const baseurl = require("../constant/constant");
 module.exports = router;
 
 router.get("/test", async (req, res) => {
     console.log("SUKESSSS");
 });
 
-router.get("/api/updated-list/page/:pagenumber", async (req, res) => {
+router.get("/updated-list/page/:pagenumber", async (req, res) => {
     let pageNumber = req.params.pagenumber;
-    let url = baseurl+`page/${pageNumber}/`;
+    let url = baseurl + `page/${pageNumber}/`;
 
     try {
-        const response = await axios.get(url, {
+        await axios.get(url, {
             headers: {
-                'User-Agent' : 'Mozilla/5.0 (Linux; Android 8.0.0; SM-G960F Build/R16NW) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/62.0.3202.84 Mobile Safari/537.36'
+                'User-Agent': 'Mozilla/5.0 (Linux; Android 8.0.0; SM-G960F Build/R16NW) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/62.0.3202.84 Mobile Safari/537.36'
             }
-        });
-        fetch(url, error => {
-            res.send({
-                status: 0,
-                message: error
-            })
-        }, html => {
-            if (response.status === 200) {
-                const $ = cheerio.load(html);
+        }).then(res2 => {
+            if (res2.status == 200) {
+                const $ = cheerio.load(res2.data);
                 const element = $("#wasu");
                 let update_list = [];
                 let cover, title, eps, endpoint;
@@ -43,22 +37,20 @@ router.get("/api/updated-list/page/:pagenumber", async (req, res) => {
                         endpoint,
                     })
                 });
-
-                console.log("200");
                 return res.status(200).json({
                     status: 1,
                     message: "Success Get Data",
                     update_list,
                 });
             } else {
-                console.log("404");
-                return res.send({
-                    message: response.status,
+                res2.send({
+                    status: 0,
+                    message: res.message
                 });
             }
-        })
+        });
+
     } catch (error) {
-        console.log("500");
         res.send({
             status: 0,
             message: error
