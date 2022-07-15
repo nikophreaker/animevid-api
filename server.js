@@ -8,7 +8,7 @@ const searchAnime = require("./routers/search-anime");
 const detailAnime = require("./routers/detail-anime");
 const cors = require("cors");
 const helmet = require("helmet");
-const PORT = 8000;
+const PORT = process.env.PORT || 8000;
 
 app.use(cors());
 app.use(helmet());
