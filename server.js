@@ -10,8 +10,8 @@ const cors = require("cors");
 const helmet = require("helmet");
 const PORT = process.env.PORT || 8000;
 
-app.use(cors());
-app.use(helmet());
+// app.use(cors());
+// app.use(helmet());
 app.use("/api", updatedEps);
 app.use("/api", watchEps);
 app.use("/api/search", searchAnime);
