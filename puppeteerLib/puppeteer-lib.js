@@ -39,10 +39,26 @@ const proxies = [
 //     }
 // });
 
-// server.listen(() => console.log('Proxy server started on 127.0.0.1:8000'));
+// const server = new ProxyChain.Server({
+//     port: 8800,
+//     prepareRequestFunction: (request => {
+//         return randomProxy = proxies[proxies.length * Math.random() | 0];
+//         return {
+//             upstreamProxyUrl: randomProxy,
+//         };
+//     })
+// });
+
+// server.listen(() => console.log(`Proxy server started on ${server.prepareRequestFunction()}`));
+
+const proxy = 'http://23.254.103.221:8800';
+const username = '154833';
+const password = 'gm7tSt88F96';
 
 exports.fetch = async function run(url, reject, resolve) {
 
+    // const newProxy = await ProxyChain.anonymizeProxy('http://66.29.154.105:3128');
+    // console.log(newProxy);
     // First, we must launch a browser instance
     const browser = await puppeteer.launch({
         // Headless option allows us to disable visible GUI, so the browser runs in the "background"
@@ -56,7 +72,7 @@ exports.fetch = async function run(url, reject, resolve) {
         // args: [
         // '--no-sandbox',
         // '--disable-setuid-sandbox',
-        //     `--proxy-server=${server}`
+        //     `--proxy-server=${proxy}`
         // ]
     })
 
@@ -96,6 +112,11 @@ exports.fetch = async function run(url, reject, resolve) {
 
     // then we need to start a browser tab
     let page = await browser.newPage();
+    await page.authenticate({
+        username,
+        password
+    });
+    page.setUserAgent('Mozilla/5.0 (Linux; Android 8.0.0; SM-G960F Build/R16NW) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/62.0.3202.84 Mobile Safari/537.36');
 
     // and tell it to go to some URL
     await page.goto(url, {
