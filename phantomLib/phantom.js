@@ -3,6 +3,7 @@ const childProcess = require("child_process");
 
 // path to PhantomJS bin
 const phantomJsPath = require("phantomjs-prebuilt").path;
+const puppeteer = require("puppeteer");
 
 exports.fetch = function (url, reject, resolve) {
     // execute phantom-script.js file via PhantomJS

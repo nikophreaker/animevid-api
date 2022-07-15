@@ -9,6 +9,8 @@
     "helmet": "^5.1.0",
     "path": "^0.12.7",
     "phantomjs-prebuilt": "^2.1.16",
+    "proxy-chain": "^2.0.3",
+    "puppeteer": "^15.4.0",
     "system": "^2.0.1",
     "webpage": "^0.3.0"
   }
