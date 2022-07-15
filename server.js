@@ -3,19 +3,19 @@ const express = require("express"),
 // const fastify = require("fastify"),
 //     app = fastify();
 const updatedEps = require("./routers/updated-eps");
+const watchEps = require("./routers/watch-eps");
+const searchAnime = require("./routers/search-anime");
+const detailAnime = require("./routers/detail-anime");
 const cors = require("cors");
 const helmet = require("helmet");
 const PORT = 8000;
-const cheerio = require("cheerio");
-const axios = require("axios");
-const baseurl = require("./constant/constant");
-const {
-    fetch
-} = require("./scrappers/index.js");
 
-// app.use(cors());
-// app.use(helmet());
+app.use(cors());
+app.use(helmet());
 app.use("/api", updatedEps);
+app.use("/api", watchEps);
+app.use("/api/search", searchAnime);
+app.use("/api/anime", detailAnime);
 // app.get("/test", updatedEps);
 
 // app.register(updatedEps, {
