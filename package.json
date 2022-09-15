@@ -13,5 +13,7 @@
     "puppeteer": "^15.4.0",
     "system": "^2.0.1",
     "webpage": "^0.3.0"
-  }
+  },
+  "main": "server.js",   
+  "scripts": {       "start": "node server.js",     "heroku-postbuild": "cd client && npm install --only=dev && npm install && npm run build"   }
 }
