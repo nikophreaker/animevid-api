@@ -22,7 +22,7 @@ app.use("/api/anime", detailAnime);
 //     prefix: '/api'
 // });
 
-app.get('/', (req, res) => {
+app.get('/home', (req, res) => {
     res.send('Hello World');
 });
 // app.use("*", (req, res) => {
