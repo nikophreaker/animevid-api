@@ -51,28 +51,31 @@ const proxies = [
 
 // server.listen(() => console.log(`Proxy server started on ${server.prepareRequestFunction()}`));
 
-const proxy = 'http://23.254.103.221:8800';
-const username = '154833';
-const password = 'gm7tSt88F96';
-
 exports.fetch = async function run(url, reject, resolve) {
 
+    const oldProxyUrl = 'http://185.213.27.227:3128';
+    const newProxyUrl = await ProxyChain.anonymizeProxy(oldProxyUrl);
+    console.log(newProxyUrl);
+
+    // const proxy = 'https://23.254.103.221:8800';
+    // const username = '154833';
+    // const password = 'gm7tSt88F96';
+
     // const newProxy = await ProxyChain.anonymizeProxy('http://66.29.154.105:3128');
-    // console.log(newProxy);
     // First, we must launch a browser instance
     const browser = await puppeteer.launch({
         // Headless option allows us to disable visible GUI, so the browser runs in the "background"
         // for development lets keep this to true so we can see what's going on but in
         // on a server we must set this to true
-        headless: true,
+        headless: false,
         // This setting allows us to scrape non-https websites easier
         ignoreHTTPSErrors: true,
 
         // avoid bot
         // args: [
-        // '--no-sandbox',
-        // '--disable-setuid-sandbox',
-        //     `--proxy-server=${proxy}`
+        //     // '--no-sandbox',
+        //     // '--disable-setupid-sandbox',
+        //     `--proxy-server=${newProxyUrl}`
         // ]
     })
 
@@ -112,12 +115,11 @@ exports.fetch = async function run(url, reject, resolve) {
 
     // then we need to start a browser tab
     let page = await browser.newPage();
-    await page.authenticate({
-        username,
-        password
-    });
-    page.setUserAgent('Mozilla/5.0 (Linux; Android 8.0.0; SM-G960F Build/R16NW) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/62.0.3202.84 Mobile Safari/537.36');
-
+    await page.setUserAgent('Mozilla/5.0 (Linux; Android 8.0.0; SM-G960F Build/R16NW) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/62.0.3202.84 Mobile Safari/537.36');
+    // await page.authenticate({
+    //     username,
+    //     password
+    // });
     // and tell it to go to some URL
     await page.goto(url, {
         waitUntil: 'domcontentloaded',
@@ -145,4 +147,5 @@ exports.fetch = async function run(url, reject, resolve) {
     resolve(await page.content());
     await page.close();
     await browser.close();
+    await ProxyChain.closeAnonymizedProxy(newProxyUrl, true);
 }
