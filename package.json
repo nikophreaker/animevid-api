@@ -13,5 +13,8 @@
     "puppeteer": "^15.4.0",
     "system": "^2.0.1",
     "webpage": "^0.3.0"
+  },
+  "engines": {
+    "node": "^14"
   }
 }
